@@ -1,0 +1,68 @@
+
+<% include header %>
+
+
+	<div class="jumbotron" >
+ 	   <h1>This is <%= dude.name%>!</h1>
+ 	   <br>
+ 	   <p>
+        	<%= dude.summarry %>
+        </p>
+    
+    <% if(dude.id.toString()==user.id){ %>
+    <form method="POST" action="/users/profile/<%= user.id %>" style="float: left;">
+		<button type="submit" value="editprofile" class="btn" style="margin: 10px;">Edit profile </button>	
+	</form>
+    <% } %>
+    </div>
+   	<div class="col-xs-8 col-sm-6" style="border: 2px solid grey;
+    border-radius: 5px;">
+    	<h3>Links</h3>
+    	<table>
+    		<tr>
+	    		<div class="container">
+	    		<ul>
+	    			<%;
+	    			dude.links.forEach(function(link){ %>
+	    				<li onclick="redirectToLink('<%= link %>')" style="cursor:pointer; color:blue; text-decoration: underline;"><%= link %></li>
+
+	    			<% }); %>
+	    		</ul>
+		    		
+	    		</div>
+    		</tr>
+    	</table>
+    	
+    </div>
+
+       	<div class="col-xs-8 col-sm-6" style="border: 2px solid grey;
+    border-radius: 5px;">
+    	<h3>Screenshots</h3>
+    	<table>
+    		<tr>
+	    		<div class="container">
+	    			<% dude.photos.forEach(function(photo){ %>
+	    				<img style="max-width:250px; margin: 5px;" src="/user_uploads/<%= photo.src %>">
+	    				<h5 style="text-overflow: ellipsis; max-width: 100px;white-space: nowrap;
+  						overflow: hidden; "><%= photo.name %></h5>
+	    				
+	    			<% }); %>
+	    					    		
+	    		</div>
+    		</tr>
+    	</table>
+    </div>
+</div>
+
+	</body>
+</html>
+
+<script type="text/javascript">
+	var redirectSignIn = function() {
+		window.location.href = '/users/signin'; 
+	}
+	var redirectToLink = function(link) {
+		console.log(link);
+		window.open(link,'_blank');
+	}
+</script>
