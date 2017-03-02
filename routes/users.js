@@ -34,7 +34,7 @@ var storage = multer.diskStorage({
     	if(storagetype=="screenshot") {
 			var oldphotos = user.photos;
 			oldphotos.push(newphoto);
-			User.update({_id:req.user.id}, {$set:{photos:oldphotos}}, function(err, res) {
+			User.update({_id:req.user.id}, {$set:{photos:oldphotos, portifolio: "true"}}, function(err, res) {
 				if(err)
 					console.log(err);
 			});
@@ -99,7 +99,8 @@ router.post("/signup", function(req, res) {
 			password: password,
 			usertype: type,
 			links: [],
-			summary: ""
+			summary: "no summary", 
+			phone: "no phone"
 		});
 
 		User.createUser(newUser, function(err, user){
@@ -112,9 +113,18 @@ router.post("/signup", function(req, res) {
 	
 });
 
-router.post('/profile/:id',  function(req, res) {
+router.get('/profile/:id',  function(req, res) {
 	if(req.isAuthenticated() && req.user.id == req.params.id) {
 		res.render('profile.html');
+	} else {
+		req.flash('error_msg','You are not logged in');
+		res.redirect('/users/signin');
+	}
+});
+
+router.get('/makeportifolio/:id',  function(req, res) {
+	if(req.isAuthenticated() && req.user.id == req.params.id) {
+		res.render('makeportifolio.html');
 	} else {
 		req.flash('error_msg','You are not logged in');
 		res.redirect('/users/signin');
@@ -175,18 +185,57 @@ router.get('/signout', function(req, res){
 
 
 router.post('/addlink', function(req, res) {
-	var newlink = req.body.newlink;
-	User.getUserbyUsername(res.locals.user.username, function(err, user) {
-		var oldlinks = user.links;
-		oldlinks.push(newlink);
-		User.update({_id:res.locals.user.id}, {$set:{links:oldlinks}}, function(err, res) {
-		if(err)
-			console.log(err);
-		});
-	});
+	if(req.body.reponame!="" && req.body.url!="") {
+		var newlink = {name: req.body.reponame, url: req.body.newlink};
+		User.getUserbyUsername(res.locals.user.username, function(err, user) {
+			var oldlinks = user.links;
+			oldlinks.push(newlink);
+			User.update({_id:res.locals.user.id}, {$set:{links:oldlinks, portifolio: "true"}}, function(err, res) {
+			if(err)
+				console.log(err);
+			});
+		});	
+	} else {
+		req.flash("error_msg", "Fill all the fields!")
+	}
+	
 	res.redirect('/users/profile/'+req.user.id);
 	
 	res.send(res.locals.user.username);
+});
+
+
+router.post('/addTags', function(req, res) {
+	if(req.body.tags!="") {
+		var tagsStr = req.body.tags;
+		var tagsArr = tagsStr.split(', ');
+		User.getUserbyUsername(res.locals.user.username, function(err, user) {
+			var oldTags = user.tags;
+			tagsArr.forEach(function(tag) {
+				oldTags.push(tag);
+			})
+			User.update({_id:res.locals.user.id}, {$set:{tags:oldlinks}}, function(err, res) {
+			if(err)
+				console.log(err);
+			});
+		});	
+	} else {
+		// req.flash("error_msg", "Fill all the fields!")
+	}
+	
+	res.redirect('/users/profile/'+req.user.id);
+	
+	res.send(res.locals.user.username);
+});
+router.post('/deletelink/link', function(req, res) {
+	User.getUserbyUsername(res.locals.user.username, function(err, user) {
+			var oldlinks = user.links;
+			oldlinks.push(newlink);
+			User.update({_id:res.locals.user.id}, {$set:{links:oldlinks, portifolio: "true"}}, function(err, res) {
+			if(err)
+				console.log(err);
+			});
+		});	
 });
 
 router.post('/addscreenshot',function(req,res) {

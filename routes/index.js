@@ -13,8 +13,9 @@ router.get('/', function(req, ress) {
 			if(person.profilephoto)
 				pstr = person.profilephoto.toString();			
 			console.log(pstr);
+			console.log(person.portifolio);
 
-			if(person.usertype=="developer") {
+			if(person.usertype=="developer" && person.portifolio!=null) {
 				console.log(str+'/'+person.usertype);
 				people.push({name: str, id: person.id, photo: pstr});
 			}
@@ -26,7 +27,7 @@ router.get('/', function(req, ress) {
 	
 });
 
-function ensureAuthenticated(req, res, next){
+function ensureAuthenticated(req, res, next){	
 	// if(req.isAuthenticated()){
 	// 	return next();
 	// } else {

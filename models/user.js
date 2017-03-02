@@ -22,7 +22,14 @@ var userSchema = mongoose.Schema({
 		type: mongoose.SchemaTypes.Email
 	},
 	links: [
-		String
+		{
+			name: {
+				type: String
+			},
+			url: {
+				type: String
+			}
+		}
 	],
 	photos: [
 		{
@@ -39,7 +46,14 @@ var userSchema = mongoose.Schema({
 	},
 	profilephoto: {
 		type: String
-	}
+	},
+	portifolio: {
+		type: String
+	},
+	phone: {
+		type: String
+	},
+
 });
 
 var User = module.exports = mongoose.model('User', userSchema);
