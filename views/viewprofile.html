@@ -2,37 +2,37 @@
 <% include header %>
 
 
-	<div class="jumbotron" >
- 	   <div class="intro" style="display: flex; width: 100%; min-height: 250px;">
+	<div class="jumbotron" style="font-family: cursive; font-weight: bold;">
+ 	   <div class="intro" style="display: flex; width: 100%; min-height: 250px;font-family: cursive; font-weight: bold;">
 	 	   <div>
-	 	   		<h1>This is <%= dude.name%>!</h1>
-	 	   		<span>Username: <%= dude.username%></span>
+	 	   		<h1 >This is <%= dude.name%>!</h1>
 	 	   		<br>
-		 	   	<span>Email: <%= dude.email%></span>
+	 	   		<span style="font-family: cursive; font-weight: bold;">Username: <%= dude.username%></span>
+	 	   		<br>
+		 	   	<span>Email:<span style="text-decoration: ; cursor:pointer; color:blue; text-align: center;"> <%= dude.email%></span></span>
 		 	   	<br>
 		 	   	<span>Phone: <%= dude.phone %></span>
 		 	   	<br>
-		 	   	<span>Summary:
-		 	   		<p><%dude.summary%></p>
+		 	   	<br>
+		 	   	<span style="font-size: 30px;">Summary:
+		 	   		<p style="margin-left: 40px;"><%= dude.summary%></p>
 		 	   	</span>
 	 	   </div>
 	 	   	
-	 	   <% if(user.profilephoto!=null && user.profilephoto!="") { %>
-	 	   		<img class="img-circle" src="/user_uploads/<%= user.profilephoto %>" alt="Generic placeholder image" width="300" height="300" style="float: right; margin: 10px;position: fixed;">
-
-			<% } else { %>
-	 	   		<img class="img-circle" src="/user_uploads/koushi-1487686809628.jpg" alt="Generic placeholder image" width="250" height="250" style="  margin-left: 50%;position: absolute;">
-
-			<% } %>
+			<img class="img-circle" src="/user_uploads/<%= dude.profilephoto %>" alt="Generic placeholder image" width="300" height="250" style="margin-left: 50%;position: absolute; max-width: 20%; max-height: 80%; min-width: 200px;">
  	   </div>
  	   <br>
  	   <p>
         	<%= dude.summarry %>
         </p>
-    
+	    <% dude.tags.forEach(function(tag) { %>
+	  		<a style="margin: 5px;cursor:pointer; color:blue; text-align: center;">#<%= tag %></a>
+	 	<% }); %>
+	 	<br>
+	 	<br>
     <% if(dude.id.toString()==user.id){ %>
     <form method="GET" action="/users/profile/<%= user.id %>" style="float: left;">
-		<button type="submit" value="editprofile" class="btn" style="margin: 10px;">Edit profile </button>	
+		<button type="submit" value="editprofile" class="btn btn-success" style="margin: 10px;">Edit profile </button>	
 	</form>
 		<% if(dude.portifolio!="true") { %>
 			<!-- <form method="GET" action="/users/makeportifolio/<%= user.id %>" style="float: left;">
@@ -49,8 +49,9 @@
 		<% } %>
     <% } %>
     </div>
+    <div class="row">
    	<div class="col-xs-8 col-sm-6" style="border: 2px solid grey;
-    border-radius: 5px;  max-width: 45%; margin-right: 5%">
+    border-radius: 5px;  max-width: 45%; margin-right: 5%; margin-left: 2%; font-family: cursive; font-weight: bold;">
     	<h3>Links</h3>
     	<br>
     	<table>
@@ -79,14 +80,14 @@
     </div>
 
        	<div class="col-xs-8 col-sm-6" style="border: 2px solid grey;
-    border-radius: 5px; max-width: 45%;">
+    border-radius: 5px; max-width: 45%; font-family: cursive; font-weight: bold;">
     	<h3>Screenshots</h3>
     	<br>
     	<table>
     		<tr>
 	    		<div class="container" >
 	    			<% dude.photos.forEach(function(photo){ %>
-	    				<img style="max-width:400px; margin: 5px;" src="/user_uploads/<%= photo.src %>">
+	    				<img style="max-width:100%; margin: 5px;" src="/user_uploads/<%= photo.src %>">
 	    				<h5 style="text-overflow: ellipsis; max-width: 200px;white-space: nowrap;
   						overflow: hidden; "><%= photo.name %></h5>
 	    				
@@ -95,6 +96,7 @@
 	    		</div>
     		</tr>
     	</table>
+    </div>
     </div>
 </div>
 
@@ -110,3 +112,16 @@
 		window.open(link,'_blank');
 	}
 </script>
+<style type="text/css">
+	.row {
+	  display: -webkit-box;
+	  display: -webkit-flex;
+	  display: -ms-flexbox;
+	  display:         flex;
+	  flex-wrap: wrap;
+	}
+	.row > [class*='col-'] {
+	  display: flex;
+	  flex-direction: column;
+	}
+</style>

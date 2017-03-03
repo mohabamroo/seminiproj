@@ -2,7 +2,7 @@
 <% include header %>
 
 
-	<div class="jumbotron" >
+	<div class="jumbotron" style="font-family: cursive; font-weight: bold;" >
 	<div class="container">
 		<h1 style="float: left; padding-top: 40px;">Hello, <%= user.name%>!</h1>
 		<% if(user.profilephoto!=null && user.profilephoto!="") { %>
@@ -17,7 +17,19 @@
 			<button type="submit" value="Upload Image" class="btn" style="margin: 10px;">Update profile photo</button>	
 		</form>	
 	</div>
- 	   
+		<form style="width: 400px;" method="post" action="/users/updateEmail">
+ 	   		<input type="email" name="email" class="form-control" placeholder="ex: mohab@gmail.com" style="max-width: 250px;">
+ 	   		<br>
+ 	   		<input type="submit" class="btn" value="Update email" style=" position: relative;">
+ 	   </form>
+ 	   <br>
+ 	   <br>
+ 	   <form style="width: 400px;" method="post" action="/users/updatePhone">
+ 	   		<input type="text" name="phone" class="form-control" placeholder="ex: 01064911012" style="max-width: 150px;">
+ 	   		<br>
+ 	   		<input type="submit" class="btn" value="Update phone" style=" position: relative;">
+ 	   </form>
+ 	   <br>
  	   <br>
  	   <form method="POST" action="/users/updateSummary">
  	   	 	<div class="form-control" onkeyup="updatehidden()" style="min-width: 500px; min-height: 150px;" id='faketxt' contenteditable>
@@ -35,19 +47,13 @@
  	   <br>
 
  	   <form method="POST" action="/users/addTags">
- 	   	 	<div class="form-control" onkeyup="updatehidden()" style="min-width: 500px; min-height: 50px;" id='faketxt' contenteditable>
- 	   	 		<% if(user.tags!=null) { 
- 	   	 			tags.forEach(function(tag) { %>
- 	   	 			 	<%= tag %>
- 	   	 			 	
 
- 	   	 		<%	});
- 	   	 		%>
- 	   	 		<% } else { %>
- 	   	 		<span style="color: gray; font-style: italic;">add tags sparated by commas..</span>
- 	   	 		<% } %>
- 	   	 	</div>
- 	   	 	<textarea id="hiddentxt" style="display: none;" name="tags"></textarea>
+	   	 	<% user.tags.forEach(function(tag) { %>
+ 	   	 		<a style="margin: 5px;cursor:pointer; color:blue; text-align: center;">#<%= tag %></a>
+ 	   	 	<% }); %>
+ 	   	 	<br>
+ 	   	 	<br>
+ 	   	 	<input id="hiddentxt" class="form-control" name="tags" placeholder="php, java, development">
 
 			<button type="submit" class="btn" style="margin: 10px;">Add Tags</button>	
  	   </form>
@@ -72,7 +78,7 @@
 	    					">
 	    						<%= link.url %>
 	    					</span>
-	    					<form method="POST" action="/users/deletelink">
+	    					<form method="POST" action="/users/deletelink/<%= link.url %>">
 				    			<button type="submit" class="btn" style="">Delete</button>
 				    		</form>
 	    				</li>
@@ -98,10 +104,20 @@
     		<tr>
 	    		<div class="container">
 	    			<% user.photos.forEach(function(photo){ %>
-	    				<img style="max-width:250px; margin: 5px;" src="/user_uploads/<%= photo.src %>">
-	    				<h5 style="text-overflow: ellipsis; max-width: 100px;white-space: nowrap;
-  						overflow: hidden; "><%= photo.name %></h5>
+	    			<div style="width: 100%;">
+	    				<img style="max-width:100%; margin: 5px;" src="/user_uploads/<%= photo.src %>">
+	    				<div style="display: ">
+	    					<h5 style="text-overflow: ellipsis; max-width: 100%;white-space: nowrap;
+	  						overflow: hidden; "><%= photo.name %>
+	  							<form method="POST" action="/users/deletescreenshot/<%= photo.src %>" >
+					    		<button type="submit" class="btn" style="float: right;">Delete</button>
+					    	</form>
+	  						</h5>
+		    				
+	    				</div>
 	    				
+				    	<br>
+				    </div>
 	    			<% }); %>
 	    			<form id="uploadForm" enctype="multipart/form-data" method="POST" action="/users/addscreenshot" >
 			    		<input type="text" class="form-control" name="photoName" placeholder="catpic">

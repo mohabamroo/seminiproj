@@ -5,14 +5,16 @@
 		<div class="row" style="padding: 20px;">
 	<% people.forEach(function(person) { %>
         <div class="col-lg-4" style="margin-top: 40px;">
-          <% if(person.photo!=null && person.photo!="") { %>
- 	   		<img class="img-circle" src="/user_uploads/<%= person.photo %>" alt="Generic placeholder image" width="300" height="250" >
-
-		<% } else { %>
- 	   		<img class="img-circle" src="/user_uploads/koushi-1487686809628.jpg" alt="Generic placeholder image" width="300" height="250">
-
-		<% } %>
-          <h2 class="clickableh2" id="<%= person.id %>" style="cursor:pointer; color:gray; text-align: center;"><%= person.name %></h2>
+          
+ 	   		<img class="img-circle" src="/user_uploads/<%= person.photo %>" alt="Generic placeholder image" width="300" height="250">
+          <h3 class="clickableh2" id="<%= person.id %>" style="cursor:pointer; color:gray; text-align: center; margin-bottom: 0;"><%= person.name %>          	
+          </h3>
+          <span class="" id="<%= person.id %>" style="color:black; text-align: center; margin-top: 5px;">
+	        <%= person.link %>
+	        <br>
+	        <%= person.photolink %>
+	        </span>
+          
         </div><!-- /.col-lg-4 -->
 
 	<% });  %>    
@@ -44,3 +46,17 @@
 	});
 
 </script>
+
+<style type="text/css">
+	.row {
+	  display: -webkit-box;
+	  display: -webkit-flex;
+	  display: -ms-flexbox;
+	  display:         flex;
+	  flex-wrap: wrap;
+	}
+	.row > [class*='col-'] {
+	  display: flex;
+	  flex-direction: column;
+	}
+</style>

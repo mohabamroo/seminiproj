@@ -53,6 +53,11 @@ var userSchema = mongoose.Schema({
 	phone: {
 		type: String
 	},
+	tags: [
+		{
+			type: String
+		}
+	]
 
 });
 

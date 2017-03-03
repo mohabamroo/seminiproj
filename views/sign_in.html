@@ -22,26 +22,22 @@
           <% } %>          
         </div>
       </div>
-      <form method="post" action="/users/signin">
+      <form method="post" action="/users/signin" style="width: 50%; margin-left: 25%">
 
         <h2 class="form-signin-heading">Please sign in</h2>
         <br>
-        <label for="inputEmail" class="sr-only">Username</label>
+        <label for="inputEmail" class="clubViews/editClubStructre">Username</label>
         <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus>
         <br>
-        <label for="inputPassword" class="sr-only">Password</label>
+        <label for="inputPassword" class="clubViews/editClubStructre">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
         <br>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me">Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+       
+        <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
       </form>
       <br>
       <br>
-		<button class="btn btn-lg btn-primary btn-block" onclick="redirectSignUp();">Sign Up</button>
+		<button class="btn btn-lg btn-primary btn-block" onclick="redirectSignUp();" style="width: 50%; margin-left: 25%">Sign Up</button>
 
     </div> <!-- /container -->
 <script type="text/javascript">
