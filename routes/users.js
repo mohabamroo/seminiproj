@@ -119,11 +119,12 @@ router.post("/signup", function(req, res) {
 				console.log(err);
 				//throw err;
 				req.flash('error_msg', 'Duplicate Username!');
-				res.render('sign_up.html');
+				res.redirect('/users/signup');
 				return;
 			} else {
 				console.log(user);
-				res.locals.pagetitle = 'Sign In',
+				res.locals.pagetitle = 'Sign In';
+				req.flash('success_msg','You signed up successfully!');
 				res.redirect('/users/signin');	
 			}
 		});	
@@ -240,7 +241,10 @@ router.post('/addTags', function(req, res) {
 				var userToAdd = {name: user.username, profileid: user.id, photo: user.profilephoto};
 				Tag.getTagbyTagname(tag, function(err2, tagres) {
 					if(tagres!=null) {
-						Tag.update({id: tagres.id}, {$push: {users: userToAdd}});
+						Tag.update({_id: tagres.id}, {$push: {users: userToAdd}}, function(errpush, pushRes) {
+							if(errpush)
+								throw errpush;
+						});
 					} else {
 						var newTag = new Tag({tag: tag, users: [userToAdd]});
 						Tag.createTag(newTag, function(err3, resnewtag) {
@@ -304,25 +308,29 @@ router.post('/addscreenshot',function(req,res) {
 });
 
 router.post('/search', function(req, res) {
-	// res.send(req.body.searchusername);
 	var searchterm = req.body.searchusername;
+	search(req, res, searchterm);
+	
+});
+
+router.get('/searchShort/:searchterm', function(req, res) {
+	search(req, res, req.params.searchterm);
+});
+
+function search(req, res, searchterm) {
 	var usersFound = [];
-	User.getUserbyUsername(req.body.searchusername, function(err, user) {
+	User.getUserbyUsername(searchterm, function(err, user) {
 		if(err)
 			console.log('err: '+err);
 		else {
-			//req.url = req.headers.host;
-			console.log(user);
 			if(user!=null)
 				usersFound.push(user);
 			Tag.getTagbyTagname(searchterm, function(err, tagres) {
-				console.log(tagres)
 				if(err)
 					throw err;
 				else {
 					if(tagres!=null) {
 						var counter = tagres.users.length;
-						console.log(counter+" ori")
 						if(counter>0)
 							tagres.users.forEach(function(userintaglist) {
 								User.getUserById(userintaglist.profileid, function(err2, userobj) {
@@ -331,13 +339,11 @@ router.post('/search', function(req, res) {
 									else
 										if(userobj!=null) {
 											console.log("java:\n"+userobj);
-											usersFound.push(userobj);
-											
+											usersFound.push(userobj);	
 										}
 										counter--;
 										console.log(counter)
 										if(counter==0) {
-											console.log(usersFound);
 											res.render('searchresults.html', {
 														'users': usersFound
 											});
@@ -345,22 +351,20 @@ router.post('/search', function(req, res) {
 								});
 							});
 						else {
-							console.log(usersFound);
-												res.render('searchresults.html', {
-															'users': usersFound
-												});
+							res.render('searchresults.html', {
+								'users': usersFound
+							});
 						}
 					} else {
 						res.render('searchresults.html', {
-														'users': usersFound
-											});
+							'users': usersFound
+						});
 					}	
 				}
 			});
 		}
 	});
-	
-});
+}
 
 router.get('/viewprofile/:id',function(req,res){
 	User.getUserById(req.params.id, function(err, resuser) {
