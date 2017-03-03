@@ -82,6 +82,7 @@ router.post("/signup", function(req, res) {
 	var confirmpassword = req.body.confirmpassword;
 	var username = req.body.username;
 	var type = req.body.type;
+	var gucid = req.body.gucid;
 	console.log(type);
 	req.checkBody('name', 'Name is empty!').notEmpty();
 	req.checkBody('email', 'Email is empty!').notEmpty();
@@ -111,7 +112,8 @@ router.post("/signup", function(req, res) {
 			summary: "no summary", 
 			phone: "no phone",
 			tags: [],
-			profilephoto: "default-photo.jpeg"
+			profilephoto: "default-photo.jpeg",
+			gucid: gucid
 		});
 
 		User.createUser(newUser, function(err, user) {

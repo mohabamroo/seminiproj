@@ -57,7 +57,10 @@ var userSchema = mongoose.Schema({
 		{
 			type: String
 		}
-	]
+	],
+	gucid: {
+		type: String
+	}
 
 });
 
