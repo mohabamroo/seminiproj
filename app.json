@@ -1,7 +1,7 @@
 {
   "name": "Software Engineering 2017: Mini Project",
   "description": "mini project using nodejs, express and mongo",
-  "repository": "https://github.com/heroku/mohabdeploymentdemo",
+  "repository": "https://github.com/mohabamroo/seminiproj",
   "keywords": ["node", "express", "static"],
   "image": "heroku/nodejs"
 }

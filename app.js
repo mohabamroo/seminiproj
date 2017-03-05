@@ -15,7 +15,7 @@ var userUploadsPath = path.resolve(__dirname, "user_uploads");
 var publicPath = path.join(__dirname, 'public');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/semini');
+mongoose.connect(process.env.MONGOLAB_URI ||process.env.MONGOHQ_URL ||'mongodb://localhost/semini');
 var db = mongoose.connection;
 
 var routes = require('./routes/index');
