@@ -28,5 +28,8 @@
     "passport-local": "*",
     "serve-favicon": "~2.3.2",
     "multer": "1.1.0"
+  },
+  "engines": {
+    "node": "4.2.x"
   }
 }
