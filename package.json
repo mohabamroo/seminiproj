@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "author": "Mohab",
   "private": true,
+  "engines": {
+    "node": "5.9.1"
+  },
   "scripts": {
     "start": "node app"
   },
@@ -28,8 +31,5 @@
     "passport-local": "*",
     "serve-favicon": "~2.3.2",
     "multer": "1.1.0"
-  },
-  "engines": {
-    "node": "4.2.x"
   }
 }
